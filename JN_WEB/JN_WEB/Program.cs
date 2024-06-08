@@ -1,6 +1,11 @@
+using JN_WEB.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IUsuarioModel, UsuarioModel>();
 
 var app = builder.Build();
 

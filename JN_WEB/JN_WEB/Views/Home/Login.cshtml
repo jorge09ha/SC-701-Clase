@@ -1,0 +1,102 @@
+﻿@model JN_WEB.Entities.Usuario
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+
+<div class="login-box">
+    <div class="login-logo">
+        <a href="../../index2.html"><b>Progra Avanzada</b>WEB</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+
+            <p class="login-box-msg">Inicar sesión</p>
+
+            <!-- danger  -->
+            @if (ViewBag.danger != null)
+            {
+                <div class="alert alert-danger alert-dismissible" id="alert">
+                    <i class="icon fas fa-ban"></i>
+                    @ViewBag.danger
+                </div>
+            }
+            <!-- info  -->
+            @if (ViewBag.info != null)
+            {
+
+                <div class="alert alert-info alert-dismissible" id="alert">
+                    <i class="icon fas fa-info"></i>
+                    @ViewBag.info
+                </div>
+            }
+            <!-- warning  -->
+            @if (ViewBag.warning != null)
+            {
+                <div class="alert alert-warning alert-dismissible" id="alert">
+                    <i class="icon fas fa-exclamation-triangle">
+                        @ViewBag.warning
+                </div>
+            }
+            <!-- success  -->
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible" id="alert">
+                    <i class="icon fas fa-check"></i>
+                    @TempData["success"]
+                </div>
+            }
+
+            @using (Html.BeginForm("Login", "Home"))
+            {
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control", @placeholder = "Correo" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Contrasenna, new { @type = "password", @class = "form-control", @placeholder = "Contraseña" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">
+                                Recuérdame
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Iniciar</button>
+                    </div>
+                </div>
+            }
+
+            <p class="mb-1">
+                <a href="@Url.Action("Index","Home")">Olvidé mi contraseña</a>
+            </p>
+            <p class="mb-0">
+                <a href="@Url.Action("RegistrarUsuario","Home")" class="text-center">Registrar una nueva cuenta</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- [ Sección ] FIN -->
+
+<script>
+    // Esperar 5 segundos y luego ocultar la alerta
+    setTimeout(function () {
+        $('#alert').fadeOut('slow');
+    }, 8000);
+</script>

@@ -1,0 +1,122 @@
+﻿@model JN_WEB.Entities.Usuario
+
+@{
+    ViewData["Title"] = "Registrar Usuario";
+    Layout = "~/Views/Shared/_LayoutExterno.cshtml";
+}
+
+
+<div class="register-box">
+    <div class="register-logo">
+        <a href=""><b>Progra Avanzada</b>WEB</a>
+    </div>
+
+    <div class="card">
+        <div class="card-body register-card-body">
+
+            <p class="login-box-msg">@ViewData["Title"]</p>
+
+            <!-- danger  -->
+            @if (ViewBag.danger != null)
+            {
+                <div class="alert alert-danger alert-dismissible" id="alert">
+                    <i class="icon fas fa-ban"></i>
+                    @ViewBag.danger
+                </div>
+            }
+            <!-- info  -->
+            @if (ViewBag.info != null)
+            {
+                <div class="alert alert-info alert-dismissible" id="alert">
+                    <i class="icon fas fa-info"></i>
+                    @ViewBag.info
+                </div>
+            }
+            <!-- warning  -->
+            @if (ViewBag.warning != null)
+            {
+                <div class="alert alert-warning alert-dismissible" id="alert">
+                    <i class="icon fas fa-exclamation-triangle">
+                        @ViewBag.warning
+                </div>
+            }
+            <!-- success  -->
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible" id="alert">
+                    <i class="icon fas fa-check"></i>
+                    @TempData["success"]
+                </div>
+            }
+
+            @using (Html.BeginForm("RegistrarUsuario", "Home"))
+            {
+
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Identificacion, new { @type = "text", @class = "form-control", @placeholder = "Identificación", id = "Cedula", onkeyup = "ConsultarCedula()", @required = "required"})
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fa-solid fa-id-card"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Nombre, new { @type = "text", @class = "form-control", @placeholder = "Nombre Completo", id = "Nombre", @required = "required"})
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Correo, new { @type = "email", @class = "form-control", @placeholder = "Correo", @required = "required"})
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(m => m.Contrasenna, new { @type = "password", @class = "form-control", @placeholder = "Contraseña", @required = "required"})
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="icheck-primary">
+                            <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+                            <label for="agreeTerms">
+                                Acepto los <a href="#">términos</a>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            }
+            <div class="mb-0">
+                <a href="@Url.Action("Index","Home")" class="text-center">Recuparar contraseña</a>
+            </div>
+            <div class="mb-0">
+                <a href="@Url.Action("Login","Home")" class="text-center">Ya tengo una cuenta</a>
+            </div>
+        </div>
+        <!-- /.form-box -->
+    </div><!-- /.card -->
+</div>
+
+<script src="~/js/ConsultarCedula.js"></script>
+<script>
+    // Esperar 5 segundos y luego ocultar la alerta
+    setTimeout(function () {
+        $('#alert').fadeOut('slow');
+    }, 8000);
+
+</script>

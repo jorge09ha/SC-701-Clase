@@ -1,0 +1,95 @@
+﻿@model List<JN_WEB.Entities.Usuario>
+
+@{
+    ViewData["Title"] = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>@ViewData["Title"]</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">@ViewData["Title"]</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <!--Contenido de la vista-->
+
+                <div class="datatable-container m-20">
+
+                    <!-- Alert  -->
+                    @if (ViewBag.Alert != null)
+                    {
+                        <div class="alert alert-warning" role="alert" style="text-align:center" id="alert">
+                            @ViewBag.Alert
+                        </div>
+                    }
+
+                    <table id="DataTable" class="table table-hover table-bordered dataTable w-100">
+                        <thead>
+                            <tr>
+                                <th>Identificación</th>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr class="odd">
+                                        <td>@item.Identificacion</td>
+                                        <td>@item.Nombre</td>
+                                        <td>@item.Correo</td>
+                                        <td>@item.Descripcion</td>
+                                        @if (item.Estado == "Activo")
+                                        {
+                                            <td class="text-green text-bold">@item.Estado</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="text-red text-bold">@item.Estado</td>
+                                        }
+                                        <td>
+                                            <a href="" class="btn btn-icon btn-link-dark" data-bs-toggle="tooltip" data-bs-placement="top"
+                                               title="Editar proyecto"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td class="text-center" colspan="5">@ViewBag.Alert</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+     
+            </div>
+            <div class="card-footer">
+                Tabla de @ViewData["Title"]
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="~/js/DataTable.js"></script>

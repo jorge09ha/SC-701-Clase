@@ -3,6 +3,7 @@ using JN_WEB.Interface;
 using JN_WEB.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace JN_WEB.Controllers
 {
@@ -19,11 +20,14 @@ namespace JN_WEB.Controllers
         public IActionResult Login(Usuario ent)
         {
             ent.Contrasenna = toolsModel.Encrypt(ent.Contrasenna!);
-
             var resp = usuarioModel.IniciarSesion(ent);
 
             if(resp.Codigo == 1)
             {
+                var datos = JsonSerializer.Deserialize<Usuario>((JsonElement)resp.Contenido!);
+                HttpContext.Session.SetString("TOKEN", datos!.Token!);
+                HttpContext.Session.SetString("NOMBRE", datos!.Nombre!);
+
                 return RedirectToAction("Home", "Home");
             }
             else
@@ -32,12 +36,22 @@ namespace JN_WEB.Controllers
                 return View();
             }
         }
+
+        //------------------------------------- Salir
+        [HttpGet]
+        public IActionResult Salir()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login","Home");
+        }
+
         //------------------------------------- Registrar Usuario
         [HttpGet]
         public IActionResult RegistrarUsuario()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult RegistrarUsuario(Usuario ent)
         {
@@ -56,6 +70,7 @@ namespace JN_WEB.Controllers
                 return View();
             }
         }
+
         //------------------------------------- Recuperar
         [HttpGet]
         public IActionResult RecuperarAcceso()
@@ -68,12 +83,42 @@ namespace JN_WEB.Controllers
         {
             return View();
         }
+
         //------------------------------------- Home
         public IActionResult Home()
         {
             return View();
         }
 
-        
+        [HttpPost]
+        public IActionResult Home(Usuario ent)
+        {
+            ent.Contrasenna = toolsModel.Encrypt(ent.Contrasenna!);
+            var resp = usuarioModel.IniciarSesion(ent);
+            
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<Usuario>((JsonElement)resp.Contenido!);
+            }
+            return View();
+        }
+
+        //------------------------------------- Usuarios
+        [HttpGet]
+        public IActionResult ConsultarUsuarios()
+        {
+            var resp = usuarioModel.ConsultarUsuarios();
+            
+            if (resp.Codigo == 1)
+            {
+                var datos = JsonSerializer.Deserialize<List<Usuario>>((JsonElement)resp.Contenido!);
+                return View(datos);
+            }
+
+            ViewBag.Alert = resp.Mensaje;
+
+            return View(new List<Usuario>());
+        }
+
     }
 }

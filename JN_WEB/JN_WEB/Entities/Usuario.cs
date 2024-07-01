@@ -6,5 +6,8 @@
         public string? Nombre { get; set; } = string.Empty;
         public string? Correo { get; set; } = string.Empty;
         public string? Contrasenna { get; set; } = string.Empty;
+        public string? Token { get; set; }
+        public string? Descripcion { get; set; }
+        public string? Estado { get; set; }
     }
 }

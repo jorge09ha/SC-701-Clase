@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -82,6 +83,34 @@ namespace JN_API.Controllers
                     resp.Mensaje = "No se pudo iniciar";
                     resp.Contenido = false;
 
+                    return Ok(resp);
+                }
+            }
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("ConsultarUsuarios")]
+        public async Task<IActionResult> ConsultarUsuarios()
+        {
+            Respuesta resp = new Respuesta();
+
+            using (var contex = new SqlConnection(iConfiguration.GetSection("ConnectionStrings:DefaultConnection").Value))
+            {
+                var resut = await contex.QueryAsync<Usuario>("ConsultarUsuarios", new { }, commandType: CommandType.StoredProcedure);
+
+                if (resut.Count() > 0)
+                {
+                    resp.Codigo = 1;
+                    resp.Mensaje = "OK";
+                    resp.Contenido = resut;
+                    return Ok(resp);
+                }
+                else
+                {
+                    resp.Codigo = 0;
+                    resp.Mensaje = "No hay usuarios registrados";
+                    resp.Contenido = false;
                     return Ok(resp);
                 }
             }

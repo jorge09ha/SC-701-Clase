@@ -82,6 +82,8 @@ BEGIN
 END
 GO
 
+------------------------------------------------------------------------------------------------
+
 CREATE PROCEDURE [dbo].[RegistrarUsuario]
 	@Identificacion varchar(50),
 	@Nombre			varchar(100),
@@ -101,6 +103,43 @@ BEGIN
 
 	END
 
+END
+GO
+
+------------------------------------------------------------------------------------------------
+
+CREATE OR ALTER PROCEDURE [dbo].[ConsultarUsuarios]
+	
+AS
+BEGIN
+	SELECT	Consecutivo,Identificacion,Nombre,Correo,U.IdRol,
+	CASE WHEN Estado = 1 THEN 'Activo' ELSE 'Inactivo' END 'Estado',R.Descripcion
+	FROM	dbo.tUsuario U
+	INNER JOIN dbo.tRol  R ON U.IdRol = R.IdRol
+
+END
+GO
+
+------------------------------------------------------------------------------------------------
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE OR ALTER PROCEDURE [dbo].[RegistrarUsuario]
+	@Identificacion varchar(50),
+	@Nombre			varchar(100),
+	@Correo			varchar(100),
+	@Contrasenna	varchar(100)
+AS
+BEGIN
+	DECLARE @Rol	TINYINT = 1,
+			@Estado	BIT		= 1
+	IF NOT EXISTS(SELECT 1 FROM dbo.tUsuario WHERE Correo = @Correo OR Identificacion = @Identificacion)
+	BEGIN
+		INSERT INTO dbo.tUsuario(Identificacion,Nombre,Correo,Contrasenna,IdRol,Estado)
+		VALUES (@Identificacion,@Nombre,@Correo,@Contrasenna,@Rol,@Estado)
+	END
 END
 GO
 

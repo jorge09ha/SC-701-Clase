@@ -5,6 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+//Para la session
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IUsuarioModel, UsuarioModel>();
 builder.Services.AddScoped<IToolsModel, ToolsModel>();
@@ -16,6 +20,9 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+//Para la session
+app.UseSession();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

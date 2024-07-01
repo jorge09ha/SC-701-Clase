@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 string SecretKey = builder.Configuration["Keys:SecretKey"]!.ToString();
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x => { x.JsonSerializerOptions.PropertyNamingPolicy = null; });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

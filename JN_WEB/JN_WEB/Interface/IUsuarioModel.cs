@@ -6,5 +6,6 @@ namespace JN_WEB.Interface
     {
         Respuesta RegistrarUsuario(Usuario ent);
         Respuesta IniciarSesion(Usuario ent);
+        Respuesta ConsultarUsuarios();
     }
 }

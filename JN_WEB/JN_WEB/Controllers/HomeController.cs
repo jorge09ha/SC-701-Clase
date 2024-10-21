@@ -27,6 +27,7 @@ namespace JN_WEB.Controllers
                 var datos = JsonSerializer.Deserialize<Usuario>((JsonElement)resp.Contenido!);
                 HttpContext.Session.SetString("TOKEN", datos!.Token!);
                 HttpContext.Session.SetString("NOMBRE", datos!.Nombre!);
+                HttpContext.Session.SetString("ROL", datos!.IdRol.ToString());
 
                 return RedirectToAction("Home", "Home");
             }

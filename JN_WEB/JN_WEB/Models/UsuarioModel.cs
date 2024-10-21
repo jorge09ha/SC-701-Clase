@@ -50,7 +50,7 @@ namespace JN_WEB.Models
             using (httpClient)
             {
                 string url = iConfiguration.GetSection("Keys:UrlApi").Value + "Usuario/ConsultarUsuarios";
-                string token = iContextAccessor.HttpContext!.Session.GetString("TOKEN")!.ToString()!;
+                string token = iContextAccessor.HttpContext!.Session.GetString("TOKEN")!.ToString()!; //OJO
 
                 httpClient.DefaultRequestHeaders.Authorization =  new AuthenticationHeaderValue("Bearer", token);
                 var resp = httpClient.GetAsync(url).Result;

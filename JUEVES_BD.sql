@@ -145,3 +145,10 @@ GO
 
 --Select * from tUsuario
 --truncate table tUsuario
+
+
+
+
+------------------------------------------------------------------------------------------------
+select * from tUsuario
+Select * from tRol
